@@ -356,11 +356,15 @@ public extension UIImageView {
             return false
         }
         
+        #if os(visionOS)
+        return true
+        #else
         let screenRect = UIScreen.main.bounds
         let viewRect = imageView.convert(bounds, to:nil)
         let intersectionRect = viewRect.intersection(screenRect)
         
         return window != nil && !intersectionRect.isEmpty && !intersectionRect.isNull
+        #endif
     }
     
     @objc func clear() {

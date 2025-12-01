@@ -225,6 +225,10 @@ public extension UIImage {
         let defaultMaxFramePerSecond = 60
         var maxFramePerSecond = defaultMaxFramePerSecond
 
+        #if os(visionOS)
+        maxFramePerSecond = 90
+        displayRefreshFactors.insert(90, at: 0)
+        #else
         if #available(iOS 10.3, *) {
             // Will be 120 on devices with ProMotion display, 60 otherwise.
             let maximumFramesPerSecond = UIScreen.main.maximumFramesPerSecond
@@ -233,6 +237,7 @@ public extension UIImage {
                 displayRefreshFactors.insert(maximumFramesPerSecond, at: 0)
             }
         }
+        #endif
 
         let frameRateRatio = Float(maxFramePerSecond / defaultMaxFramePerSecond)
 
